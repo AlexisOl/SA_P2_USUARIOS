@@ -1,12 +1,12 @@
-// user/application/usecases/ActualizarUsuarioUseCase.java
 package com.user.microservice.user.application.usecases;
+
+import java.util.UUID;
 
 import com.user.microservice.common.errors.NotFoundException;
 import com.user.microservice.user.application.inputports.ActualizarUsuarioInputPort;
 import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
-import com.user.microservice.user.domain.*;
-
-import java.util.UUID;
+import com.user.microservice.user.domain.Rol;
+import com.user.microservice.user.domain.Usuario;
 
 public class ActualizarUsuarioUseCase implements ActualizarUsuarioInputPort {
 

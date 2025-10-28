@@ -1,4 +1,3 @@
-// user/application/usecases/RegistrarUsuarioUseCase.java
 package com.user.microservice.user.application.usecases;
 
 import org.springframework.security.crypto.password.PasswordEncoder;

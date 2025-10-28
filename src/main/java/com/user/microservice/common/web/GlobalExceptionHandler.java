@@ -1,10 +1,15 @@
-// common/web/GlobalExceptionHandler.java
 package com.user.microservice.common.web;
 
-import com.user.microservice.common.errors.*;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-import java.util.*;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.user.microservice.common.errors.AlreadyExistsException;
+import com.user.microservice.common.errors.BadRequestException;
+import com.user.microservice.common.errors.NotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

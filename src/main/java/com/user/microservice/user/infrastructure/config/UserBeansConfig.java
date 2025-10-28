@@ -1,14 +1,28 @@
-// user/infrastructure/config/UserBeansConfig.java
 package com.user.microservice.user.infrastructure.config;
 
-import com.user.microservice.user.application.inputports.*;
-import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
-import com.user.microservice.user.application.usecases.*;
-import com.user.microservice.user.infrastructure.outputadapters.persistence.repository.ResetTokenJpaRepository;
-import com.user.microservice.user.infrastructure.security.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.user.microservice.user.application.inputports.ActualizarUsuarioInputPort;
+import com.user.microservice.user.application.inputports.CambiarEstadoUsuarioInputPort;
+import com.user.microservice.user.application.inputports.ListarUsuariosInputPort;
+import com.user.microservice.user.application.inputports.LoginInputPort;
+import com.user.microservice.user.application.inputports.ObtenerUsuarioInputPort;
+import com.user.microservice.user.application.inputports.RegistrarUsuarioInputPort;
+import com.user.microservice.user.application.inputports.ResetPasswordInputPort;
+import com.user.microservice.user.application.inputports.SolicitarResetPasswordInputPort;
+import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
+import com.user.microservice.user.application.usecases.ActualizarUsuarioUseCase;
+import com.user.microservice.user.application.usecases.CambiarEstadoUsuarioUseCase;
+import com.user.microservice.user.application.usecases.ListarUsuariosUseCase;
+import com.user.microservice.user.application.usecases.LoginUseCase;
+import com.user.microservice.user.application.usecases.ObtenerUsuarioUseCase;
+import com.user.microservice.user.application.usecases.RegistrarUsuarioUseCase;
+import com.user.microservice.user.application.usecases.ResetPasswordUseCase;
+import com.user.microservice.user.application.usecases.SolicitarResetPasswordUseCase;
+import com.user.microservice.user.infrastructure.outputadapters.persistence.repository.ResetTokenJpaRepository;
+import com.user.microservice.user.infrastructure.security.JwtService;
 
 @Configuration
 public class UserBeansConfig {

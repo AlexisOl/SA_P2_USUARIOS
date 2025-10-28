@@ -1,12 +1,11 @@
-// user/application/usecases/CambiarEstadoUsuarioUseCase.java
 package com.user.microservice.user.application.usecases;
+
+import java.util.UUID;
 
 import com.user.microservice.common.errors.NotFoundException;
 import com.user.microservice.user.application.inputports.CambiarEstadoUsuarioInputPort;
 import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
 import com.user.microservice.user.domain.Usuario;
-
-import java.util.UUID;
 
 public class CambiarEstadoUsuarioUseCase implements CambiarEstadoUsuarioInputPort {
   private final UsuarioRepositorioPort repo;

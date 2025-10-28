@@ -1,12 +1,24 @@
-// user/infrastructure/inputadapters/rest/AuthControllerAdapter.java
 package com.user.microservice.user.infrastructure.inputadapters.rest;
 
-import com.user.microservice.user.application.inputports.*;
-import com.user.microservice.user.infrastructure.inputadapters.rest.dto.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.user.microservice.user.application.inputports.LoginInputPort;
+import com.user.microservice.user.application.inputports.RegistrarUsuarioInputPort;
+import com.user.microservice.user.application.inputports.ResetPasswordInputPort;
+import com.user.microservice.user.application.inputports.SolicitarResetPasswordInputPort;
+import com.user.microservice.user.infrastructure.inputadapters.rest.dto.EmailRequest;
+import com.user.microservice.user.infrastructure.inputadapters.rest.dto.LoginRequest;
+import com.user.microservice.user.infrastructure.inputadapters.rest.dto.RegistrarRequest;
+import com.user.microservice.user.infrastructure.inputadapters.rest.dto.ResetRequest;
+import com.user.microservice.user.infrastructure.inputadapters.rest.dto.TokenResponse;
+import com.user.microservice.user.infrastructure.inputadapters.rest.dto.UsuarioResponse;
+
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/auth")

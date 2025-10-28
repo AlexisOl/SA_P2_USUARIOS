@@ -1,4 +1,3 @@
-// user/infrastructure/outputadapters/persistence/repository/UsuarioJpaRepository.java
 package com.user.microservice.user.infrastructure.outputadapters.persistence.repository;
 
 import java.util.Optional;

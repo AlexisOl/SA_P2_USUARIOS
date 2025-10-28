@@ -1,4 +1,3 @@
-// user/application/usecases/ListarUsuariosUseCase.java
 package com.user.microservice.user.application.usecases;
 
 import org.springframework.data.domain.Page;

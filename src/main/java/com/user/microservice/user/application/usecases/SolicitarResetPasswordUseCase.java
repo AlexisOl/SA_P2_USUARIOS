@@ -1,15 +1,14 @@
-// user/application/usecases/SolicitarResetPasswordUseCase.java
 package com.user.microservice.user.application.usecases;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 import com.user.microservice.common.errors.NotFoundException;
 import com.user.microservice.user.application.inputports.SolicitarResetPasswordInputPort;
 import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
 import com.user.microservice.user.infrastructure.outputadapters.persistence.entity.ResetTokenDbEntity;
 import com.user.microservice.user.infrastructure.outputadapters.persistence.repository.ResetTokenJpaRepository;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 
 public class SolicitarResetPasswordUseCase implements SolicitarResetPasswordInputPort {
 

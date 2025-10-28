@@ -1,15 +1,18 @@
-// user/infrastructure/security/JwtService.java
 package com.user.microservice.user.infrastructure.security;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
-import java.time.*;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {

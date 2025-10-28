@@ -1,4 +1,3 @@
-// user/application/outputports/UsuarioRepositorioPort.java
 package com.user.microservice.user.application.outputports;
 
 import java.util.Optional;

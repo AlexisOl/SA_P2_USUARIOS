@@ -1,12 +1,12 @@
-// user/application/usecases/LoginUseCase.java
 package com.user.microservice.user.application.usecases;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.user.microservice.common.errors.BadRequestException;
 import com.user.microservice.common.errors.NotFoundException;
 import com.user.microservice.user.application.inputports.LoginInputPort;
 import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
 import com.user.microservice.user.infrastructure.security.JwtService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class LoginUseCase implements LoginInputPort {
 

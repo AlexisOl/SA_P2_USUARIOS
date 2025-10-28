@@ -1,4 +1,3 @@
-// user/infrastructure/inputadapters/rest/UsuarioControllerAdapter.java
 package com.user.microservice.user.infrastructure.inputadapters.rest;
 
 import java.util.List;

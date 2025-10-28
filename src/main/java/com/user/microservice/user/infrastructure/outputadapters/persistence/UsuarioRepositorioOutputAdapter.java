@@ -1,4 +1,3 @@
-// user/infrastructure/outputadapters/persistence/UsuarioRepositorioOutputAdapter.java
 package com.user.microservice.user.infrastructure.outputadapters.persistence;
 
 import java.math.BigDecimal;
@@ -71,7 +70,7 @@ public class UsuarioRepositorioOutputAdapter implements UsuarioRepositorioPort {
             entity = jpa.findById(u.getId())
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
 
-            // Actualizar solo los campos mutables
+            
             entity.setNombre(u.getNombre());
             entity.setEmail(u.getEmail());
             entity.setPasswordHash(u.getPassword());

@@ -1,4 +1,3 @@
-// user/infrastructure/security/SecurityConfig.java
 package com.user.microservice.user.infrastructure.security;
 
 import java.util.List;

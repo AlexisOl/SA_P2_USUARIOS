@@ -1,4 +1,3 @@
-// user/infrastructure/inputadapters/rest/dto/DTOs.java
 package com.user.microservice.user.infrastructure.inputadapters.rest.dto;
 
 import java.math.BigDecimal;

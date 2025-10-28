@@ -1,4 +1,3 @@
-// user/infrastructure/outputadapters/persistence/entity/UsuarioDbEntity.java
 package com.user.microservice.user.infrastructure.outputadapters.persistence.entity;
 
 import java.math.BigDecimal;

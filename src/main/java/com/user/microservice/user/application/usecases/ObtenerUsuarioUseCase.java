@@ -1,4 +1,3 @@
-// user/application/usecases/ObtenerUsuarioUseCase.java
 package com.user.microservice.user.application.usecases;
 
 import java.util.Optional;

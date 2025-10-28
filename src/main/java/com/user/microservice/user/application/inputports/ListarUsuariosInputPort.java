@@ -1,4 +1,3 @@
-// user/application/inputports/*.java
 package com.user.microservice.user.application.inputports;
 
 import org.springframework.data.domain.Page;
