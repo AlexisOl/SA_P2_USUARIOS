@@ -8,7 +8,7 @@ server:
 
 spring:
   application:
-    name: mcsv-cines
+    name: mcsv-usuarios
 
   datasource:
     url: jdbc:mariadb://40.233.27.238:3307/auth_db
@@ -21,7 +21,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update        # Cambiar a "validate" en producción
+      ddl-auto: update        # Cambiar a "validate" en producciï¿½n
     show-sql: true
     properties:
       hibernate:
@@ -33,22 +33,22 @@ spring:
     admin:
       auto-create: true
     bootstrap-servers:
-      - localhost:9092
-      # - b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
-      # - b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+      #- localhost:9092
+      - b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+      - b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
     consumer:
       group-id: cines-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      # properties:
-      #    security.protocol: SSL
+      properties:
+         security.protocol: SSL
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      # acks: all
-      #properties:
-      #  security.protocol: SSL
+      acks: all
+      properties:
+        security.protocol: SSL
 springdoc:
   api-docs:
     path: /v3/api-docs
