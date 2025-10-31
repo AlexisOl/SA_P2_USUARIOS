@@ -6,6 +6,15 @@ server:
     include-exception: true
     include-stacktrace: ALWAYS
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
 spring:
   application:
     name: mcsv-usuarios
