@@ -21,8 +21,8 @@ public interface UsuarioJpaRepository extends JpaRepository<UsuarioDbEntity, UUI
 
     @Query(value = """
   select * from users u
-  where (:q = '' or u.nombre ILIKE concat('%', :q, '%')
-                 or u.email  ILIKE concat('%', :q, '%')
+  where (:q = '' or u.nombre LIKE concat('%', :q, '%')
+                 or u.email  LIKE concat('%', :q, '%')
                  or u.dpi    LIKE  concat('%', :q, '%'))
     and (:rol is null or u.rol = :rol)
     and (:enabled is null or u.enabled = :enabled)
@@ -30,8 +30,8 @@ public interface UsuarioJpaRepository extends JpaRepository<UsuarioDbEntity, UUI
   """,
             countQuery = """
   select count(*) from users u
-  where (:q = '' or u.nombre ILIKE concat('%', :q, '%')
-                 or u.email  ILIKE concat('%', :q, '%')
+  where (:q = '' or u.nombre LIKE concat('%', :q, '%')
+                 or u.email  LIKE concat('%', :q, '%')
                  or u.dpi    LIKE  concat('%', :q, '%'))
     and (:rol is null or u.rol = :rol)
     and (:enabled is null or u.enabled = :enabled)
