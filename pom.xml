@@ -165,6 +165,24 @@
         </dependency>
     </dependencies>
 
+
+    <!-- Repositorio de GitHub Packages -->
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/AlexisOl/SA_P2_COMMON</url>
+        </repository>
+        <repository>
+            <id>spring-release</id>
+            <url>https://repo.spring.io/release</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
+
     <build>
         <finalName>mcsv-usuarios</finalName>
         <plugins>
