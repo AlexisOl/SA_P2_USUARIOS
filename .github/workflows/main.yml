@@ -69,13 +69,12 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl apply -f UsuariosDeploy.yaml
-          kubectl apply -f UsuariosService.yaml
-
       - name: Deploy to Kubernetes
         run: |
           IMAGE=${{ secrets.DOCKER_USERNAME }}/mcsv-usuarios:${{ github.sha }}
-          kubectl set image deployment/usuarios-deploy usuarios=$IMAGE
+          sed -i "s|IMAGE_TAG|$IMAGE|g" UsuariosDeploy.yaml
+          echo "Deploying image: $IMAGE"
+          kubectl apply -f UsuariosDeploy.yaml
+          kubectl apply -f UsuariosService.yaml
           kubectl rollout status deployment/usuarios-deploy --timeout=180s
+
