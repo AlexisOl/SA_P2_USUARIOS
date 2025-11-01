@@ -30,34 +30,36 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update        # Cambiar a "validate" en producci�n
+      ddl-auto: update   # En prod: validate
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
 
-
   kafka:
     admin:
       auto-create: true
     bootstrap-servers:
-      #- localhost:9092
-      - b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
-      - b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+      - localhost:9092
+      #- b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+      #- b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
     consumer:
-      group-id: cines-group
+      group-id: usuarios-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      properties:
-         security.protocol: SSL
+      #properties:
+       # security.protocol: SSL
+       # ssl.endpoint.identification.algorithm: https
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      acks: all
-      properties:
-        security.protocol: SSL
+      #acks: all
+      #properties:
+        #security.protocol: SSL
+        #ssl.endpoint.identification.algorithm: https
+
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -73,21 +75,22 @@ logging:
   level:
     org.springframework.web: DEBUG
     # org.springframework.security: DEBUG
-    # org.springframework.web.reactive.function.client: DEBUG
     # com.user.microservice: DEBUG
 
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-service:8765/
+      #defaultZone: http://eureka-service:8765/
+      defaultZone: http://localhost:8765/eureka/
     register-with-eureka: true
     fetch-registry: true
 
-
+# <-- ESTA ES LA SECCIÓN CORRECTA (FUERA de 'spring')
 app:
   kafka:
+    enabled: true         # activa el publisher (ya no dirá “Kafka deshabilitado”)
     topic:
-      users: users.events.v1              
+      users: users.events.v1
       venta-ok: venta-actualizada
       venta-fail: venta-fallido
       factura-ok: factura-actualizada
