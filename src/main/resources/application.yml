@@ -41,24 +41,24 @@ spring:
     admin:
       auto-create: true
     bootstrap-servers:
-      - localhost:9092
-      #- b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
-      #- b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+      #- localhost:9092
+      - b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+      - b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
     consumer:
       group-id: usuarios-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      #properties:
-       # security.protocol: SSL
-       # ssl.endpoint.identification.algorithm: https
+      properties:
+        security.protocol: SSL
+        ssl.endpoint.identification.algorithm: https
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      #acks: all
-      #properties:
-        #security.protocol: SSL
-        #ssl.endpoint.identification.algorithm: https
+      acks: all
+      properties:
+        security.protocol: SSL
+        ssl.endpoint.identification.algorithm: https
 
 springdoc:
   api-docs:
@@ -81,7 +81,7 @@ eureka:
   client:
     service-url:
       #defaultZone: http://eureka-service:8765/
-      defaultZone: http://localhost:8765/eureka/
+      #defaultZone: http://localhost:8765/eureka/
     register-with-eureka: true
     fetch-registry: true
 
