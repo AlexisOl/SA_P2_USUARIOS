@@ -87,6 +87,10 @@ eureka:
 
 # <-- ESTA ES LA SECCIÓN CORRECTA (FUERA de 'spring')
 app:
+  frontend:
+    base-url: https://tu-frontend.com
+  security:
+    dev-return-token: true  
   kafka:
     enabled: true         # activa el publisher (ya no dirá “Kafka deshabilitado”)
     topic:

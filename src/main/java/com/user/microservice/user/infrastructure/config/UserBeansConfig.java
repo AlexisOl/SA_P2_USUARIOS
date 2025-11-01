@@ -58,10 +58,10 @@ public class UserBeansConfig {
         return new CambiarEstadoUsuarioUseCase(repo);
     }
 
-    @Bean
+    /*@Bean
     public SolicitarResetPasswordInputPort solicitarReset(UsuarioRepositorioPort repo, ResetTokenJpaRepository tokens) {
         return new SolicitarResetPasswordUseCase(repo, tokens);
-    }
+    }*/
 
     @Bean
     public ResetPasswordInputPort resetPassword(UsuarioRepositorioPort repo, ResetTokenJpaRepository tokens, PasswordEncoder encoder) {

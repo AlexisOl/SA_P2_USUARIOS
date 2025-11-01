@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.user.microservice.user.application.outputports.UserEventPublisher;
 import com.user.microservice.user.domain.Usuario;
+import com.user.microservice.user.domain.events.PasswordResetRequestedEvent;
 
 @ConditionalOnProperty(value = "app.kafka.enabled", havingValue = "false", matchIfMissing = true)
 @Component
@@ -14,5 +15,10 @@ public class UserEventPublisherNoOp implements UserEventPublisher {
     public void userRegistered(Usuario usuario) {
         // No hace nada (Kafka está deshabilitado)
         System.out.println("Evento Kafka omitido (Kafka deshabilitado)");
+    }
+
+    @Override
+    public void passwordResetRequested(PasswordResetRequestedEvent event) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

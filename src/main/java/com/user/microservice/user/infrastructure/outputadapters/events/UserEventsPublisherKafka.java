@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.user.microservice.user.application.outputports.UserEventPublisher;
 import com.user.microservice.user.domain.Usuario;
+import com.user.microservice.user.domain.events.PasswordResetRequestedEvent;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,24 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
             });
         } catch (Exception e) {
             log.error("Error enviando evento Kafka: {}", e.getMessage(), e);
+        }
+    }
+    @Override
+    public void passwordResetRequested(PasswordResetRequestedEvent event) {
+        try {
+            String json = objectMapper.writeValueAsString(event);
+
+            Message<String> msg = MessageBuilder
+                .withPayload(json)
+                .setHeader(KafkaHeaders.TOPIC, usersTopic)
+                .setHeader(KafkaHeaders.KEY, event.userId())
+                .setHeader("eventType", "user.password.reset.requested.v1")
+                .build();
+
+            kafkaTemplate.send(msg); // <-- SIN CAST
+            log.info("Evento 'passwordResetRequested' publicado para {}", event.email());
+        } catch (Exception e) {
+            log.error("Error publicando passwordResetRequested", e);
         }
     }
 
