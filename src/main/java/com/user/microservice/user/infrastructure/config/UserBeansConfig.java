@@ -12,6 +12,7 @@ import com.user.microservice.user.application.inputports.ObtenerUsuarioInputPort
 import com.user.microservice.user.application.inputports.RegistrarUsuarioInputPort;
 import com.user.microservice.user.application.inputports.ResetPasswordInputPort;
 import com.user.microservice.user.application.inputports.SolicitarResetPasswordInputPort;
+import com.user.microservice.user.application.outputports.UserEventPublisher;
 import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
 import com.user.microservice.user.application.usecases.ActualizarUsuarioUseCase;
 import com.user.microservice.user.application.usecases.CambiarEstadoUsuarioUseCase;
@@ -28,8 +29,8 @@ import com.user.microservice.user.infrastructure.security.JwtService;
 public class UserBeansConfig {
 
     @Bean
-    public RegistrarUsuarioInputPort registrarUsuario(UsuarioRepositorioPort repo, PasswordEncoder encoder) {
-        return new RegistrarUsuarioUseCase(repo, encoder);
+    public RegistrarUsuarioInputPort registrarUsuario(UsuarioRepositorioPort repo, PasswordEncoder encoder, UserEventPublisher publisher) {
+        return new RegistrarUsuarioUseCase(repo, encoder, publisher);
     }
 
     @Bean

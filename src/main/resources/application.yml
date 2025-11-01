@@ -84,3 +84,16 @@ eureka:
     fetch-registry: true
 
 
+app:
+  kafka:
+    topic:
+      users: users.events.v1              
+      venta-ok: venta-actualizada
+      venta-fail: venta-fallido
+      factura-ok: factura-actualizada
+      factura-fail: factura-fallido
+      factura-snacks-ok: factura-snacks-actualizada
+      factura-snacks-fail: factura-snacks-fallido
+      debito-usuario: debito-usuario
+      debito-usuario-snacks: debito-usuario-snacks
+      acreditacion-usuario: acreditacion-usuario

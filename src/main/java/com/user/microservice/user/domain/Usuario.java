@@ -25,7 +25,7 @@ public class Usuario {
 
     public Usuario(UUID id, String nombre, String email, String passwordHash,
             String dpi, Rol rol, boolean enabled, Instant createdAt, Instant updatedAt) {
-        this.id = Objects.requireNonNull(id);
+        this.id = id;
         this.nombre = Objects.requireNonNull(nombre);
         this.email = Objects.requireNonNull(email);
         this.password = Objects.requireNonNull(passwordHash);
@@ -38,7 +38,7 @@ public class Usuario {
 
     public Usuario(UUID id, String nombre, String email, String passwordHash,
             String dpi, Rol rol, boolean enabled, BigDecimal bancaVirtual, Instant createdAt, Instant updatedAt) {
-        this.id = Objects.requireNonNull(id);
+        this.id = id;
         this.nombre = Objects.requireNonNull(nombre);
         this.email = Objects.requireNonNull(email);
         this.password = Objects.requireNonNull(passwordHash);
@@ -51,7 +51,7 @@ public class Usuario {
     }
 
     public static Usuario nuevo(String nombre, String email, String passwordHash, String dpi, Rol rol) {
-        return new Usuario(UUID.randomUUID(), nombre, email, passwordHash, dpi, rol, true, Instant.now(), Instant.now());
+        return new Usuario(null, nombre, email, passwordHash, dpi, rol, true, Instant.now(), Instant.now());
     }
 
     public void actualizar(String nombre, Rol rol, Boolean enabled) {
