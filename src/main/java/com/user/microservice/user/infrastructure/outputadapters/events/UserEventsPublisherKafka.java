@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.user.microservice.user.application.outputports.UserEventPublisher;
 import com.user.microservice.user.domain.Usuario;
 import com.user.microservice.user.domain.events.PasswordResetRequestedEvent;
+import com.user.microservice.user.infrastructure.inputadapters.rest.dto.RegisteredPayload;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserEventsPublisherKafka implements UserEventPublisher {
 
-    private final KafkaTemplate<String, String> kafkaTemplate; // <String, String>
+    private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    // Si tienes en application.yml: app.kafka.topic.users: users.events.v1
     // inyecta el nombre del tópico:
     @org.springframework.beans.factory.annotation.Value("${app.kafka.topic.users:users.events.v1}")
     private String usersTopic;
@@ -77,6 +77,5 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
         }
     }
 
-    // payload compacto que espera notificaciones
-    record RegisteredPayload(String userId, String nombre, String email) {}
+    
 }

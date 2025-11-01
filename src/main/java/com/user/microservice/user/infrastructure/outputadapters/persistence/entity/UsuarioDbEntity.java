@@ -1,4 +1,3 @@
-// user/infrastructure/outputadapters/persistence/entity/UsuarioDbEntity.java
 package com.user.microservice.user.infrastructure.outputadapters.persistence.entity;
 
 import java.math.BigDecimal;
@@ -37,9 +36,6 @@ public class UsuarioDbEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    // Alternativa equivalente:
-    // @UuidGenerator
-    // private UUID id;
     @JdbcTypeCode(SqlTypes.BINARY)
     @Column(name = "id", columnDefinition = "BINARY(16)", nullable = false)
     private UUID id;
@@ -71,10 +67,9 @@ public class UsuarioDbEntity {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    // user/infrastructure/outputadapters/persistence/entity/UsuarioDbEntity.java
     @Version
     @Column(name = "version", nullable = false)
-    private Long version;   // no lo inicialices; Hibernate pondrá 0 en el insert
+    private Long version;   
 
     @PrePersist
     public void prePersist() {

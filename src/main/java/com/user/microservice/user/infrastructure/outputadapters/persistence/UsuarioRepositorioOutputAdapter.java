@@ -46,7 +46,7 @@ public class UsuarioRepositorioOutputAdapter implements UsuarioRepositorioPort {
 
     private static UsuarioDbEntity toEntityForUpdate(Usuario u) {
         var e = new UsuarioDbEntity();
-        e.setId(u.getId());                 // aquí sí
+        e.setId(u.getId());                 
         e.setNombre(u.getNombre());
         e.setEmail(u.getEmail());
         e.setPasswordHash(u.getPassword());

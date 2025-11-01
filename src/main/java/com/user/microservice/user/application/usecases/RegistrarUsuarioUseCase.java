@@ -28,7 +28,7 @@ public class RegistrarUsuarioUseCase implements RegistrarUsuarioInputPort {
         var u = Usuario.nuevo(nombre, email, hash, dpi.trim(), rol == null ? Rol.CLIENTE : rol);
         var saved = repo.guardar(u);
 
-        // 🔊 Notificar creación de usuario (si Kafka está habilitado)
+        
         publisher.userRegistered(saved);
 
         return saved;
