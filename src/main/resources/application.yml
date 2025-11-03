@@ -80,7 +80,7 @@ logging:
 eureka:
   client:
     service-url:
-      #defaultZone: http://eureka-service:8765/
+      defaultZone: http://eureka-service:8765/
       #defaultZone: http://localhost:8765/eureka/
     register-with-eureka: true
     fetch-registry: true

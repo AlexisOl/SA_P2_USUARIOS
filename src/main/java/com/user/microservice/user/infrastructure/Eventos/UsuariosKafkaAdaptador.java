@@ -1,5 +1,9 @@
 package com.user.microservice.user.infrastructure.Eventos;
 
+import com.example.comun.DTO.FacturaAnuncio.CambioEstadoAnuncioDTO;
+import com.example.comun.DTO.FacturaAnuncio.DebitoUsuarioAnuncio;
+import com.example.comun.DTO.FacturaAnuncio.DiasDescuentoAnunciosBloqueados;
+import com.example.comun.DTO.FacturaAnuncio.RespuestaFacturaAnuncioCreadaDTO;
 import com.example.comun.DTO.FacturaBoleto.CobroCineDTO;
 import com.example.comun.DTO.FacturaBoleto.DebitoCine.DebitoCineDTO;
 import com.example.comun.DTO.FacturaBoleto.DebitoUsuario;
@@ -27,6 +31,8 @@ public class UsuariosKafkaAdaptador {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
     private final DebitarBancaInputPort debitarBancaInputPort;
+    //aca necesitamos saber los cines
+
 
     // extraccion de dinero al usuario
     @KafkaListener(topics = "debito-usuario", groupId = "usuarios-group")
@@ -39,6 +45,8 @@ public class UsuariosKafkaAdaptador {
         String motivoFallo = "Error desconocido";
 
         try {
+            //aca ver la cantidad de cines y multplicar digamos
+
             Usuario usuarioDebitado = debitarBancaInputPort.debitar(
                     evento.getUserId(),
                     BigDecimal.valueOf(evento.getMonto()),
@@ -121,6 +129,84 @@ public class UsuariosKafkaAdaptador {
         String topicFactura = exito ? "factura-snacks-actualizada" : "factura-snacks-fallido";
         System.out.println(exito+" tuvo exito?");
         //kafkaTemplate.send(topicVenta, json);
+        kafkaTemplate.send(topicFactura, json);
+    }
+
+
+    @KafkaListener(topics = "acreditacion-usuario-anuncio-facturacion", groupId = "usuarios-group")
+    @Transactional
+    public void debitarDineroAnuncio(@Payload String mensaje, @Header(KafkaHeaders.CORRELATION_ID) String correlationId) throws Exception {
+
+        DebitoUsuarioAnuncio evento = objectMapper.readValue(mensaje, DebitoUsuarioAnuncio.class);
+        System.out.println("Intentando debitar dinero: " + evento.getMonto() + " del usuario: " + evento.getUserId());
+
+        boolean exito = false;
+        String motivoFallo = "Error desconocido";
+
+        try {
+            Usuario usuarioDebitado = debitarBancaInputPort.debitar(
+                    evento.getUserId(),
+                    BigDecimal.valueOf(evento.getMonto()),
+                    evento.getMotivo()
+            );
+            exito = true;
+            motivoFallo = "Débito exitoso. Nuevo saldo: " + usuarioDebitado.getBancaVirtual();
+
+        } catch (Exception e) {
+            // aca falla entonces quitar dinero
+            for (DiasDescuentoAnunciosBloqueados cines: evento.getDineroCines()) {
+                System.out.println(cines.getPrecio()+ " -- " +cines.getCine() );
+                String debitarCine="debito-cine";
+                if(!cines.isEstado()) {
+                    // fue debito entonces se acredita
+                    debitarCine="credito-cine";
+                }
+                    // aca fue ingreso entonces se debita
+                    DebitoCineDTO debito = new DebitoCineDTO();
+                    debito.setMonto(cines.getPrecio());
+                    debito.setCorrelationId(evento.getCorrelationId());
+                    debito.setIdCine(cines.getCine());
+                    String jsonDebitar = objectMapper.writeValueAsString(debito);
+
+                    Message<String> mensajeDebito = MessageBuilder
+                            .withPayload(jsonDebitar)
+                            .setHeader(KafkaHeaders.TOPIC, debitarCine)
+                            .setHeader(KafkaHeaders.CORRELATION_ID, evento.getCorrelationId())
+                            .build();
+                    kafkaTemplate.send(mensajeDebito);
+
+            }
+        }
+
+        // aca regresa info, en caso de estar correcto o no
+
+        RespuestaFacturaAnuncioCreadaDTO respuesta = new RespuestaFacturaAnuncioCreadaDTO();
+        respuesta.setMotivoFallo(motivoFallo);
+        respuesta.setCorrelationId(evento.getCorrelationId());
+        respuesta.setExito(exito);
+        respuesta.setFactura(evento.getFactura());
+        respuesta.setDineroCines(evento.getDineroCines());
+        respuesta.setAnuncioId(evento.getIdAnuncio());
+
+        String json = objectMapper.writeValueAsString(respuesta);
+
+        // para el cambio del anuncip
+
+
+        CambioEstadoAnuncioDTO respuestaAnuncio = new CambioEstadoAnuncioDTO();
+        respuestaAnuncio.setMotivoFallo(motivoFallo);
+        respuestaAnuncio.setCorrelationId(evento.getCorrelationId());
+        respuestaAnuncio.setAnuncioId(evento.getIdAnuncio());
+
+        String jsonAnuncio = objectMapper.writeValueAsString(respuestaAnuncio);
+
+        //si todo bien ver que enviar
+        //generar factura
+
+        String topicFactura = exito ? "creacion-factura-anuncio-especifica" : "creacion-factura-anuncio-fallido";
+        String topicAnuncio = exito ? "cambio-estado-exitoso-anuncio" : "cambio-estado-fallido-anuncio";
+        System.out.println(exito+" tuvo exito?");
+        kafkaTemplate.send(topicAnuncio, jsonAnuncio);
         kafkaTemplate.send(topicFactura, json);
     }
 
