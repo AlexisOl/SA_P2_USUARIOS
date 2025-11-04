@@ -1,5 +1,7 @@
 package com.user.microservice.user.infrastructure.Eventos;
 
+import com.example.comun.DTO.BloqueoAnuncios.CreditoUsuarioBloqueo;
+import com.example.comun.DTO.BloqueoAnuncios.CreditoUsuarioBloqueoEspecifico;
 import com.example.comun.DTO.FacturaAnuncio.CambioEstadoAnuncioDTO;
 import com.example.comun.DTO.FacturaAnuncio.DebitoUsuarioAnuncio;
 import com.example.comun.DTO.FacturaAnuncio.DiasDescuentoAnunciosBloqueados;
@@ -9,6 +11,7 @@ import com.example.comun.DTO.FacturaBoleto.DebitoCine.DebitoCineDTO;
 import com.example.comun.DTO.FacturaBoleto.DebitoUsuario;
 import com.example.comun.DTO.FacturaBoleto.RespuestaFacturaBoletoCreadoDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.user.microservice.user.application.inputports.AcreditarBancaInputPort;
 import com.user.microservice.user.application.inputports.DebitarBancaInputPort;
 import com.user.microservice.user.domain.Usuario;
 import lombok.AllArgsConstructor;
@@ -31,6 +34,7 @@ public class UsuariosKafkaAdaptador {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
     private final DebitarBancaInputPort debitarBancaInputPort;
+    private final AcreditarBancaInputPort acreditarBancaInputPort;
     //aca necesitamos saber los cines
 
 
@@ -213,10 +217,24 @@ public class UsuariosKafkaAdaptador {
 
 
 
-    @KafkaListener(topics = "acreditacion-usuario", groupId = "usuarios-group")
+    @KafkaListener(topics = "acreditacion-usuario-bloqueo", groupId = "usuarios-group")
     @Transactional
     public void acreditarDinero(@Payload String mensaje, @Header(KafkaHeaders.CORRELATION_ID) String correlationId) throws Exception {
-        DebitoUsuario evento = objectMapper.readValue(mensaje, DebitoUsuario.class);
+        CreditoUsuarioBloqueo evento = objectMapper.readValue(mensaje, CreditoUsuarioBloqueo.class);
+        try {
+            for (CreditoUsuarioBloqueoEspecifico listado: evento.getListado()) {
+                Usuario usuarioAcreditado = acreditarBancaInputPort.acreditar(
+                        listado.getUserId(),
+                        BigDecimal.valueOf(listado.getMonto()),
+                        "Pago de devolucion por bloqueo de anuncios en el cine"
+                );
+            }
+
+
+        } catch (Exception e) {
+            System.err.println("Error al acredirar usuario " );
+        }
+
 
     }
 
