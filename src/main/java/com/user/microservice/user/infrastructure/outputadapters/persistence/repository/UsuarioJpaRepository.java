@@ -1,3 +1,4 @@
+// user/infrastructure/outputadapters/persistence/repository/UsuarioJpaRepository.java
 package com.user.microservice.user.infrastructure.outputadapters.persistence.repository;
 
 import java.util.Optional;
@@ -19,26 +20,38 @@ public interface UsuarioJpaRepository extends JpaRepository<UsuarioDbEntity, UUI
 
     boolean existsByDpi(String dpi);
 
-    @Query(value = """
-  select * from users u
-  where (:q = '' or u.nombre LIKE concat('%', :q, '%')
-                 or u.email  LIKE concat('%', :q, '%')
-                 or u.dpi    LIKE  concat('%', :q, '%'))
-    and (:rol is null or u.rol = :rol)
-    and (:enabled is null or u.enabled = :enabled)
-  order by u.created_at desc
-  """,
+    @Query(
+            value = """
+    SELECT *
+    FROM users u
+    WHERE (
+            (:q IS NULL OR :q = '')
+            OR LOWER(u.nombre) LIKE CONCAT('%', LOWER(:q), '%')
+            OR LOWER(u.email)  LIKE CONCAT('%', LOWER(:q), '%')
+            OR u.dpi           LIKE CONCAT('%', :q, '%')
+          )
+      AND ( :rol IS NULL OR :rol = '' OR u.rol = :rol )
+      AND ( :enabled IS NULL OR u.enabled = :enabled )
+    ORDER BY u.created_at DESC
+    """,
             countQuery = """
-  select count(*) from users u
-  where (:q = '' or u.nombre LIKE concat('%', :q, '%')
-                 or u.email  LIKE concat('%', :q, '%')
-                 or u.dpi    LIKE  concat('%', :q, '%'))
-    and (:rol is null or u.rol = :rol)
-    and (:enabled is null or u.enabled = :enabled)
-  """,
-            nativeQuery = true)
-    Page<UsuarioDbEntity> search(@Param("q") String q,
+    SELECT COUNT(*)
+    FROM users u
+    WHERE (
+            (:q IS NULL OR :q = '')
+            OR LOWER(u.nombre) LIKE CONCAT('%', LOWER(:q), '%')
+            OR LOWER(u.email)  LIKE CONCAT('%', LOWER(:q), '%')
+            OR u.dpi           LIKE CONCAT('%', :q, '%')
+          )
+      AND ( :rol IS NULL OR :rol = '' OR u.rol = :rol )
+      AND ( :enabled IS NULL OR u.enabled = :enabled )
+    """,
+            nativeQuery = true
+    )
+    Page<UsuarioDbEntity> search(
+            @Param("q") String q,
             @Param("rol") String rol,
             @Param("enabled") Boolean enabled,
-            Pageable pageable);
+            Pageable pageable
+    );
 }
