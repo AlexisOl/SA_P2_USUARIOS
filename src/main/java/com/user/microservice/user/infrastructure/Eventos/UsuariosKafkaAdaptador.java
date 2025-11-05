@@ -146,7 +146,7 @@ public class UsuariosKafkaAdaptador {
 
         boolean exito = false;
         String motivoFallo = "Error desconocido";
-
+        Double montoUsuario = evento.getMonto();
         try {
             Usuario usuarioDebitado = debitarBancaInputPort.debitar(
                     evento.getUserId(),
@@ -191,6 +191,7 @@ public class UsuariosKafkaAdaptador {
         respuesta.setFactura(evento.getFactura());
         respuesta.setDineroCines(evento.getDineroCines());
         respuesta.setAnuncioId(evento.getIdAnuncio());
+        respuesta.setMonto(evento.getMonto());
 
         String json = objectMapper.writeValueAsString(respuesta);
 
