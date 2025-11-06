@@ -73,11 +73,11 @@ security:
     secret: vrksPUsAxyUzRIsbyisM2mYqlS1Ugvn8fanEC96HVuPIeHhpZyayi0nY/Aot+ZKG+hR3Iz1IPrAV1twvxn4ilw==
     expiration-seconds: 86400
 
-#logging:
-#  level:
-#    org.springframework.web: DEBUG
-#    # org.springframework.security: DEBUG
-#    com.user.microservice: INFO
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    com.user.microservice: INFO
 
 eureka:
   client:
