@@ -45,7 +45,10 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>comun</artifactId>
