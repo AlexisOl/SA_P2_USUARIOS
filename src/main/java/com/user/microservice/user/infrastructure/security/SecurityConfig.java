@@ -1,6 +1,7 @@
 package com.user.microservice.user.infrastructure.security;
 
 import java.util.List;
+import org.springframework.http.HttpMethod;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
