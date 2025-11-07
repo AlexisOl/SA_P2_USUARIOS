@@ -53,14 +53,12 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       properties:
         security.protocol: SSL
-        ssl.endpoint.identification.algorithm: https
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       acks: all
       properties:
         security.protocol: SSL
-        ssl.endpoint.identification.algorithm: https
 
 springdoc:
   api-docs:
