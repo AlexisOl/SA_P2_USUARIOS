@@ -41,10 +41,6 @@ spec:
               value: earliest
             - name: MSK_TRUSTSTORE_PASSWORD
               value: "changeit"
-          volumeMounts:
-            - name: msk-truststore
-              mountPath: /etc/msk-truststore
-              readOnly: true
           resources:
             requests:
               memory: "256Mi"
@@ -62,4 +58,13 @@ spec:
               port: 8083
             initialDelaySeconds: 60
             periodSeconds: 10
+      volumes:
+        - name: msk-truststore
+          secret:
+            secretName: msk-truststore
+            items:
+              - key: truststore.jks
+                path: truststore.jks
+
+
 
