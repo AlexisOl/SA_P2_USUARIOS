@@ -7,5 +7,5 @@ import com.user.microservice.user.domain.Usuario;
 
 public interface ActualizarUsuarioInputPort {
 
-    Usuario actualizar(UUID id, String nombre, Rol rol, Boolean enabled);
+    Usuario actualizar(UUID id, String nombre, String email, Rol rol, String dpi,  Boolean enabled);
 }

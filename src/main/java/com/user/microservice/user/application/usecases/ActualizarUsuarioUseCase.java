@@ -17,9 +17,9 @@ public class ActualizarUsuarioUseCase implements ActualizarUsuarioInputPort {
     }
 
     @Override
-    public Usuario actualizar(UUID id, String nombre, Rol rol, Boolean enabled) {
+    public Usuario actualizar(UUID id, String nombre, String email, Rol rol, String dpi, Boolean enabled) {
         var u = repo.porId(id).orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
-        u.actualizar(nombre, rol, enabled);
+        u.actualizar(nombre, email,  rol, dpi,  enabled);
         return repo.guardar(u);
     }
 }
