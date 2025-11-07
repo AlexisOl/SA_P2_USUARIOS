@@ -23,57 +23,58 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 @Configuration
 public class SecurityConfig {
 
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-     }
+    }
 
-//     @Bean
-//     SecurityFilterChain filterChain(HttpSecurity http, JwtService jwt) throws Exception {
-//       //  http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http, JwtService jwt) throws Exception {
+      //  http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
-//         http.csrf(csrf -> csrf.disable());
-//         http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//    //    http.cors(c -> c.configurationSource(corsSource()));
+        http.csrf(csrf -> csrf.disable());
+        http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+   //    http.cors(c -> c.configurationSource(corsSource()));
         
-//         http.authorizeHttpRequests(auth -> auth
-//                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                 .requestMatchers("/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/v1/users/**").permitAll()
-//                 .anyRequest().authenticated()
-//         );
-//         http.addFilterBefore(new JwtAuthFilter(jwt), UsernamePasswordAuthenticationFilter.class);
-//         return http.build();
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/v1/users/**").permitAll()
+                .anyRequest().authenticated()
+        );
+        http.addFilterBefore(new JwtAuthFilter(jwt), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
 
-//     }
+    }
 
-// // @Bean
-// // public CorsConfigurationSource corsConfigurationSource() {
-// //     CorsConfiguration configuration = new CorsConfiguration();
-// //     configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://40.233.27.238"));
-// //     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-// //     configuration.setAllowedHeaders(List.of("*"));
-// //     configuration.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
-// //     configuration.setAllowCredentials(true);
+// @Bean
+// public CorsConfigurationSource corsConfigurationSource() {
+//     CorsConfiguration configuration = new CorsConfiguration();
+//     configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://40.233.27.238"));
+//     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//     configuration.setAllowedHeaders(List.of("*"));
+//     configuration.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
+//     configuration.setAllowCredentials(true);
 
-// //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-// //     source.registerCorsConfiguration("/**", configuration);
-// //     return source;
-// // }
+//     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//     source.registerCorsConfiguration("/**", configuration);
+//     return source;
+// }
 
 
 
-    // @Bean
-    // public OpenAPI customOpenAPI() {
-    //     final String securitySchemeName = "bearerAuth";
+    @Bean
+    public OpenAPI customOpenAPI() {
+        final String securitySchemeName = "bearerAuth";
 
-    //     return new OpenAPI()
-    //         .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-    //         .components(new Components()
-    //             .addSecuritySchemes(securitySchemeName,
-    //                 new SecurityScheme()
-    //                     .name(securitySchemeName)
-    //                     .type(SecurityScheme.Type.HTTP)
-    //                     .scheme("bearer")
-    //                     .bearerFormat("JWT")));
-    // }
+        return new OpenAPI()
+            .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+            .components(new Components()
+                .addSecuritySchemes(securitySchemeName,
+                    new SecurityScheme()
+                        .name(securitySchemeName)
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT")));
+    }
 }
