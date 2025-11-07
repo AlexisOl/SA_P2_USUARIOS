@@ -41,6 +41,10 @@ spec:
               value: earliest
             - name: MSK_TRUSTSTORE_PASSWORD
               value: "changeit"
+          volumeMounts:
+            - name: msk-truststore
+              mountPath: /app
+              readOnly: true
           resources:
             requests:
               memory: "256Mi"
@@ -61,7 +65,7 @@ spec:
       volumes:
         - name: msk-truststore
           secret:
-            secretName: msk-truststore
+            secretName: msk-truststore-v2
             items:
               - key: truststore.jks
                 path: truststore.jks
