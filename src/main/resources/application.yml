@@ -96,8 +96,8 @@ app:
     base-url: https://tu-frontend.com
   security:
     dev-return-token: true  
-#  kafka:
-#    enabled: true         # activa el publisher (ya no dirá “Kafka deshabilitado”)
-#    topic:
-#      users: users.events.v1
-#      debito-usuario: debito-usuario
+  kafka:
+    enabled: true         # activa el publisher (ya no dirá “Kafka deshabilitado”)
+    topic:
+      users: users.events.v1
+      reset-password: reset-user-password
