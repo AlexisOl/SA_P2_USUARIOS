@@ -104,7 +104,7 @@ public class UsuariosKafkaAdaptador {
     @Transactional
     public void debitarDineroSnacks(@Payload String mensaje, @Header(KafkaHeaders.CORRELATION_ID) String correlationId) throws Exception {
         DebitoUsuario evento = objectMapper.readValue(mensaje, DebitoUsuario.class);
-        System.out.println("Intentando debitar dinero: " + evento.getMonto() + " del usuario: " + evento.getUserId());
+        System.out.println("Intentando debitar dinero anucnio: " + evento.getMonto() + " del usuario: " + evento.getUserId());
 
         boolean exito = false;
         String motivoFallo = "Error desconocido";

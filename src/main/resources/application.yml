@@ -43,24 +43,24 @@ spring:
     admin:
       auto-create: true
     bootstrap-servers:
-      #- localhost:9092
-      - b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
-      - b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+      - localhost:9092
+#      - b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+#      - b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
     consumer:
       group-id: usuarios-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      properties:
-        security.protocol: SSL
-        ssl.endpoint.identification.algorithm: https
+#      properties:
+#        security.protocol: SSL
+#        ssl.endpoint.identification.algorithm: https
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      acks: all
-      properties:
-        security.protocol: SSL
-        ssl.endpoint.identification.algorithm: https
+#      acks: all
+#      properties:
+#        security.protocol: SSL
+#        ssl.endpoint.identification.algorithm: https
 
 springdoc:
   api-docs:
@@ -97,12 +97,3 @@ app:
     enabled: true         # activa el publisher (ya no dirá “Kafka deshabilitado”)
     topic:
       users: users.events.v1
-      venta-ok: venta-actualizada
-      venta-fail: venta-fallido
-      factura-ok: factura-actualizada
-      factura-fail: factura-fallido
-      factura-snacks-ok: factura-snacks-actualizada
-      factura-snacks-fail: factura-snacks-fallido
-      debito-usuario: debito-usuario
-      debito-usuario-snacks: debito-usuario-snacks
-      acreditacion-usuario: acreditacion-usuario
