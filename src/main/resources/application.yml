@@ -43,7 +43,7 @@ spring:
     admin:
       auto-create: true
     bootstrap-servers:
-      #- localhost:9092
+#      - localhost:9092
       - b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
       - b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
     consumer:
