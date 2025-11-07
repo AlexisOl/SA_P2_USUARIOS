@@ -30,7 +30,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, JwtService jwt) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+      //  http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         http.csrf(csrf -> csrf.disable());
         http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -46,19 +46,19 @@ public class SecurityConfig {
 
     }
 
-@Bean
-public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://40.233.27.238"));
-    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-    configuration.setAllowedHeaders(List.of("*"));
-    configuration.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
-    configuration.setAllowCredentials(true);
+// @Bean
+// public CorsConfigurationSource corsConfigurationSource() {
+//     CorsConfiguration configuration = new CorsConfiguration();
+//     configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://40.233.27.238"));
+//     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//     configuration.setAllowedHeaders(List.of("*"));
+//     configuration.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
+//     configuration.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-}
+//     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//     source.registerCorsConfiguration("/**", configuration);
+//     return source;
+// }
 
 
 
