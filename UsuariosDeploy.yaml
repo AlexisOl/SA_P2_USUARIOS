@@ -39,6 +39,12 @@ spec:
               value: all
             - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
               value: earliest
+            - name: MSK_TRUSTSTORE_PASSWORD
+              value: "changeit"
+          volumeMounts:
+            - name: msk-truststore
+              mountPath: /etc/msk-truststore
+              readOnly: true
           resources:
             requests:
               memory: "256Mi"
