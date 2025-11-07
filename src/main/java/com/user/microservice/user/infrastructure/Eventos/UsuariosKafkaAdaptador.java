@@ -43,7 +43,7 @@ public class UsuariosKafkaAdaptador {
     // extraccion de dinero al usuario
     private static final Logger log = LoggerFactory.getLogger(UsuariosKafkaAdaptador.class);
 
-    @KafkaListener(topics = "debito-usuario-boleto", groupId = "usuarios-group")
+    @KafkaListener(topics = "debito-usuario", groupId = "usuarios-group")
     @Transactional
     public void debitarDinero(@Payload String mensaje, @Header(KafkaHeaders.CORRELATION_ID) String correlationId) throws Exception {
         DebitoUsuario evento = objectMapper.readValue(mensaje, DebitoUsuario.class);
@@ -94,6 +94,65 @@ public class UsuariosKafkaAdaptador {
         String json = objectMapper.writeValueAsString(respuesta);
         String topicVenta = exito ? "venta-actualizada" : "venta-fallido";
         String topicFactura = exito ? "factura-actualizada" : "factura-fallido";
+
+        log.info("RESPUESTA | Exito: {} | Enviando a {}/{}", exito, topicVenta, topicFactura);
+        kafkaTemplate.send(topicVenta, json);
+        kafkaTemplate.send(topicFactura, json);
+    }
+
+
+
+    @KafkaListener(topics = "debito-usuario-boleto", groupId = "usuarios-group")
+    @Transactional
+    public void debitarDineroBoleto(@Payload String mensaje, @Header(KafkaHeaders.CORRELATION_ID) String correlationId) throws Exception {
+        DebitoUsuario evento = objectMapper.readValue(mensaje, DebitoUsuario.class);
+
+        log.info("DEBITO RECIBIDO | User: {} | Monto: Q{} | CorrID: {}",
+                evento.getUserId(), evento.getMonto(), correlationId);
+
+        boolean exito = false;
+        String motivoFallo = "Error desconocido";
+
+        try {
+            Usuario usuarioDebitado = debitarBancaInputPort.debitar(
+                    evento.getUserId(),
+                    BigDecimal.valueOf(evento.getMonto()),
+                    evento.getMotivo()
+            );
+            exito = true;
+            motivoFallo = "Débito exitoso. Nuevo saldo: " + usuarioDebitado.getBancaVirtual();
+            log.info("DÉBITO EXITOSO | User: {} | Saldo: {}", evento.getUserId(), usuarioDebitado.getBancaVirtual());
+
+        } catch (Exception e) {
+            motivoFallo = e.getMessage();
+            log.error("ERROR AL DEBITAR | User: {} | Motivo: {}", evento.getUserId(), motivoFallo, e);
+
+            // Enviar a cine
+            DebitoCineDTO debito = new DebitoCineDTO();
+            debito.setMonto(evento.getMonto());
+            debito.setCorrelationId(evento.getCorrelationId());
+            debito.setIdCine(evento.getIdCine());
+            String jsonDebitar = objectMapper.writeValueAsString(debito);
+
+            Message<String> mensajeDebito = MessageBuilder
+                    .withPayload(jsonDebitar)
+                    .setHeader(KafkaHeaders.TOPIC, "debito-cine")
+                    .setHeader(KafkaHeaders.CORRELATION_ID, evento.getCorrelationId())
+                    .build();
+            kafkaTemplate.send(mensajeDebito);
+            log.info("ENVIADO A CINE | Monto: Q{} | Cine: {}", evento.getMonto(), evento.getIdCine());
+        }
+
+        RespuestaFacturaBoletoCreadoDTO respuesta = new RespuestaFacturaBoletoCreadoDTO();
+        respuesta.setMotivoFallo(motivoFallo);
+        respuesta.setCorrelationId(evento.getCorrelationId());
+        respuesta.setExito(exito);
+        respuesta.setVentaId(evento.getVentaId());
+        respuesta.setFactura(evento.getFactura());
+
+        String json = objectMapper.writeValueAsString(respuesta);
+        String topicVenta = exito ? "venta-actualizada-boleto" : "venta-fallido";
+        String topicFactura = exito ? "factura-actualizada-boleto" : "factura-fallido-boleto";
 
         log.info("RESPUESTA | Exito: {} | Enviando a {}/{}", exito, topicVenta, topicFactura);
         kafkaTemplate.send(topicVenta, json);
