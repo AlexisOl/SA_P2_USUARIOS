@@ -43,7 +43,7 @@ public class UsuariosKafkaAdaptador {
     // extraccion de dinero al usuario
     private static final Logger log = LoggerFactory.getLogger(UsuariosKafkaAdaptador.class);
 
-    @KafkaListener(topics = "debito-usuario", groupId = "usuarios-group")
+    @KafkaListener(topics = "debito-usuario-boleto", groupId = "usuarios-group")
     @Transactional
     public void debitarDinero(@Payload String mensaje, @Header(KafkaHeaders.CORRELATION_ID) String correlationId) throws Exception {
         DebitoUsuario evento = objectMapper.readValue(mensaje, DebitoUsuario.class);
