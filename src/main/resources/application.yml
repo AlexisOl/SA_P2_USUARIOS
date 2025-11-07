@@ -93,7 +93,7 @@ eureka:
 # <-- ESTA ES LA SECCIÓN CORRECTA (FUERA de 'spring')
 app:
   frontend:
-    base-url: https://tu-frontend.com
+    base-url: http://40.233.27.238/auth/
   security:
     dev-return-token: true  
   kafka:
