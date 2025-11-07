@@ -72,7 +72,7 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
 
             Message<String> msg = MessageBuilder
                     .withPayload(json)
-                    .setHeader(KafkaHeaders.TOPIC, resetPasswordTopic)
+                    .setHeader(KafkaHeaders.TOPIC, usersTopic)
                     .setHeader(KafkaHeaders.KEY, event.userId())
                     .setHeader("eventType", "user.password.reset.requested.v1")
                     .build();
