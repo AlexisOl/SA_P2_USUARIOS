@@ -26,8 +26,8 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
     private final ObjectMapper objectMapper;
 
     // inyecta el nombre del tópico:
-    @org.springframework.beans.factory.annotation.Value("${app.kafka.topic.users:users.events.v1}")
-    private String usersTopic;
+//    @org.springframework.beans.factory.annotation.Value("${app.kafka.topic.users:users.events.v1}")
+//    private String usersTopic;
 
     @Override
     public void userRegistered(Usuario usuario) {
@@ -38,7 +38,7 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
 
             Message<String> msg = MessageBuilder
                 .withPayload(json)
-                .setHeader(KafkaHeaders.TOPIC, usersTopic)
+                .setHeader(KafkaHeaders.TOPIC, "users-events-v1")
                 .setHeader("kafka_messageKey", usuario.getId().toString())
                 .setHeader("eventType", "user.registered.v1")                      
                 .build();
@@ -65,7 +65,7 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
 
             Message<String> msg = MessageBuilder
                 .withPayload(json)
-                .setHeader(KafkaHeaders.TOPIC, usersTopic)
+                .setHeader(KafkaHeaders.TOPIC, "reset-user-password")
                 .setHeader(KafkaHeaders.KEY, event.userId())
                 .setHeader("eventType", "user.password.reset.requested.v1")
                 .build();
