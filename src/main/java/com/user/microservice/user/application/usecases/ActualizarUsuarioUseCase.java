@@ -7,6 +7,7 @@ import com.user.microservice.user.application.inputports.ActualizarUsuarioInputP
 import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
 import com.user.microservice.user.domain.Rol;
 import com.user.microservice.user.domain.Usuario;
+import org.springframework.transaction.annotation.Transactional;
 
 public class ActualizarUsuarioUseCase implements ActualizarUsuarioInputPort {
 
@@ -15,7 +16,8 @@ public class ActualizarUsuarioUseCase implements ActualizarUsuarioInputPort {
     public ActualizarUsuarioUseCase(UsuarioRepositorioPort repo) {
         this.repo = repo;
     }
-
+    
+    @Transactional
     @Override
     public Usuario actualizar(UUID id, String nombre, String email, Rol rol, String dpi, Boolean enabled) {
         var u = repo.porId(id).orElseThrow(() -> new NotFoundException("Usuario no encontrado"));

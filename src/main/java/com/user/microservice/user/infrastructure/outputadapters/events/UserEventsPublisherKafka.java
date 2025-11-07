@@ -16,6 +16,7 @@ import com.user.microservice.user.infrastructure.inputadapters.rest.dto.Register
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @ConditionalOnProperty(value = "app.kafka.enabled", havingValue = "true")
 @Component
@@ -34,7 +35,8 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
 
     @Value("${app.kafka.topic.reset-password:reset-user-password}")
     private String resetPasswordTopic;
-
+    
+    @Transactional
     @Override
     public void userRegistered(Usuario usuario) {
         try {
@@ -64,7 +66,8 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
             log.error("Error enviando evento Kafka: {}", e.getMessage(), e);
         }
     }
-
+    
+    @Transactional
     @Override
     public void passwordResetRequested(PasswordResetRequestedEvent event) {
         try {

@@ -12,12 +12,14 @@ import com.user.microservice.user.application.outputports.UsuarioRepositorioPort
 import com.user.microservice.user.domain.Usuario;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class DebitarBancaUseCase implements DebitarBancaInputPort {
     private final UsuarioRepositorioPort repo;
-
+    
+    @Transactional
     @Override
     public Usuario debitar(UUID userId, BigDecimal monto, String motivo) {
         if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0)

@@ -18,6 +18,7 @@ import com.user.microservice.user.infrastructure.outputadapters.persistence.repo
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Caso de uso: Solicitar reset de contraseña.
@@ -39,7 +40,9 @@ public class SolicitarResetPasswordUseCase implements SolicitarResetPasswordInpu
 
     @Value("${app.security.dev-return-token:false}")
     private boolean devReturnToken;
-
+    
+    
+    @Transactional
     @Override
     public String solicitar(String email) {
         final Usuario u = usuarios.porEmail(email.toLowerCase().trim())

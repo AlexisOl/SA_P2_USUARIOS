@@ -12,12 +12,14 @@ import com.user.microservice.user.application.outputports.UsuarioRepositorioPort
 import com.user.microservice.user.domain.Usuario;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class AcreditarBancaUseCase implements AcreditarBancaInputPort {
     private final UsuarioRepositorioPort repo;
-
+    
+    @Transactional
     @Override
     public Usuario acreditar(UUID userId, BigDecimal monto, String motivo) {
         if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0)

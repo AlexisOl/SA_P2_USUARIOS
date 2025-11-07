@@ -10,6 +10,7 @@ import com.user.microservice.user.domain.Rol;
 import com.user.microservice.user.domain.Usuario;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 public class RegistrarUsuarioUseCase implements RegistrarUsuarioInputPort {
@@ -17,7 +18,8 @@ public class RegistrarUsuarioUseCase implements RegistrarUsuarioInputPort {
     private final UsuarioRepositorioPort repo;
     private final PasswordEncoder encoder;
     private final UserEventPublisher publisher; // 👈 agregado
-
+    
+    @Transactional
     @Override
     public Usuario registrar(String nombre, String email, String passwordPlano, String dpi, Rol rol) {
         email = email.toLowerCase().trim();

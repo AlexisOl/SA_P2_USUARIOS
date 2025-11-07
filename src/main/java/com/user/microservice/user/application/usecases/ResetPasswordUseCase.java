@@ -10,6 +10,7 @@ import com.user.microservice.common.errors.NotFoundException;
 import com.user.microservice.user.application.inputports.ResetPasswordInputPort;
 import com.user.microservice.user.application.outputports.UsuarioRepositorioPort;
 import com.user.microservice.user.infrastructure.outputadapters.persistence.repository.ResetTokenJpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 public class ResetPasswordUseCase implements ResetPasswordInputPort {
 
@@ -22,7 +23,8 @@ public class ResetPasswordUseCase implements ResetPasswordInputPort {
         this.tokens = tokens;
         this.encoder = encoder;
     }
-
+    
+    @Transactional
     @Override
     public void reset(String token, String newPassword) {
         var t = tokens.findById(UUID.fromString(token)).orElseThrow(() -> new NotFoundException("Token inválido"));
