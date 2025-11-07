@@ -151,7 +151,7 @@ public class UsuariosKafkaAdaptador {
         respuesta.setFactura(evento.getFactura());
 
         String json = objectMapper.writeValueAsString(respuesta);
-        String topicVenta = exito ? "venta-actualizada-boleto" : "venta-fallido";
+        String topicVenta = exito ? "venta-actualizada-boleto" : "venta-fallido-boleto";
         String topicFactura = exito ? "factura-actualizada-boleto" : "factura-fallido-boleto";
 
         log.info("RESPUESTA | Exito: {} | Enviando a {}/{}", exito, topicVenta, topicFactura);
