@@ -41,10 +41,10 @@ spec:
               value: earliest
             - name: MSK_TRUSTSTORE_PASSWORD
               value: "changeit"
-#          volumeMounts:
-#            - name: msk-truststore
-#              mountPath: /app
-#              readOnly: true
+          volumeMounts:
+            - name: msk-truststore
+              mountPath: /app
+              readOnly: true
           resources:
             requests:
               memory: "256Mi"

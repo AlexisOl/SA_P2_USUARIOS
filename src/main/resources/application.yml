@@ -53,8 +53,8 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       properties:
         security.protocol: SSL
-       # ssl.truststore.location: /app/truststore.jks
-        ssl.truststore.password: ${MSK_TRUSTSTORE_PASSWORD}
+#        ssl.truststore.location: /app/truststore.jks
+#        ssl.truststore.password: ${MSK_TRUSTSTORE_PASSWORD}
         ssl.endpoint.identification.algorithm: https
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -62,8 +62,8 @@ spring:
       acks: all
       properties:
         security.protocol: SSL
-      #  ssl.truststore.location: /app/truststore.jks
-        ssl.truststore.password: ${MSK_TRUSTSTORE_PASSWORD}
+#        ssl.truststore.location: /app/truststore.jks
+#        ssl.truststore.password: ${MSK_TRUSTSTORE_PASSWORD}
         ssl.endpoint.identification.algorithm: https
 
 springdoc:
