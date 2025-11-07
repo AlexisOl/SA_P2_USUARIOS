@@ -93,11 +93,11 @@ eureka:
 # <-- ESTA ES LA SECCIÓN CORRECTA (FUERA de 'spring')
 app:
   frontend:
-    base-url: https://tu-frontend.com
+    base-url: http://40.233.27.238/auth/
   security:
     dev-return-token: true  
-#  kafka:
-#    enabled: true         # activa el publisher (ya no dirá “Kafka deshabilitado”)
-#    topic:
-#      users: users.events.v1
-#      debito-usuario: debito-usuario
+  kafka:
+    enabled: true         # activa el publisher (ya no dirá “Kafka deshabilitado”)
+    topic:
+      users: users.events.v1
+      reset-password: reset-user-password

@@ -59,7 +59,7 @@ public class UsuarioControllerAdapter {
   @Operation(summary="Actualizar nombre/rol/enabled")
   @PutMapping("/{id}")
   public UsuarioResponse update(@PathVariable UUID id, @RequestBody ActualizarRequest req){
-    var u = actualizar.actualizar(id, req.nombre(), req.rol(), req.enabled());
+    var u = actualizar.actualizar(id, req.nombre(), req.email(), req.rol(), req.dpi(), req.enabled());
     return UsuarioResponse.from(u);
   }
 

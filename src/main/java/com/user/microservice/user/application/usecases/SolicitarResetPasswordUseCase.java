@@ -55,7 +55,7 @@ public class SolicitarResetPasswordUseCase implements SolicitarResetPasswordInpu
 
         // 2) construir link para el frontend
         String token = t.getId().toString();
-        String link  = frontendBaseUrl + "/reset-password?token=" + token;
+        String link  = frontendBaseUrl + "reset-password/" + token;
 
         // 3) publicar evento para notificaciones
         try {

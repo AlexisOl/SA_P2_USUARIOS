@@ -14,7 +14,7 @@ public class CambiarEstadoUsuarioUseCase implements CambiarEstadoUsuarioInputPor
   @Override
   public Usuario habilitar(UUID id, boolean enabled) {
     var u = repo.porId(id).orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
-    u.actualizar(null, null, enabled);
+    u.actualizar(null, null, null, null, enabled);
     return repo.guardar(u);
   }
 }

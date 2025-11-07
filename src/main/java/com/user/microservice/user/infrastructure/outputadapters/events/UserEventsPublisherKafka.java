@@ -1,5 +1,6 @@
 package com.user.microservice.user.infrastructure.outputadapters.events;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -28,47 +29,53 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
     // inyecta el nombre del tópico:
 //    @org.springframework.beans.factory.annotation.Value("${app.kafka.topic.users:users.events.v1}")
 //    private String usersTopic;
+    @Value("${app.kafka.topic.users:users-events-v1}")
+    private String usersTopic;
+
+    @Value("${app.kafka.topic.reset-password:reset-user-password}")
+    private String resetPasswordTopic;
 
     @Override
     public void userRegistered(Usuario usuario) {
         try {
             String json = objectMapper.writeValueAsString(
-                new RegisteredPayload(usuario.getId().toString(), usuario.getNombre(), usuario.getEmail())
+                    new RegisteredPayload(usuario.getId().toString(), usuario.getNombre(), usuario.getEmail())
             );
 
             Message<String> msg = MessageBuilder
-                .withPayload(json)
-                .setHeader(KafkaHeaders.TOPIC, "users-events-v1")
-                .setHeader("kafka_messageKey", usuario.getId().toString())
-                .setHeader("eventType", "user.registered.v1")                      
-                .build();
+                    .withPayload(json)
+                    .setHeader(KafkaHeaders.TOPIC, usersTopic)
+                    .setHeader("kafka_messageKey", usuario.getId().toString())
+                    .setHeader("eventType", "user.registered.v1")
+                    .build();
 
             kafkaTemplate.send(msg).whenComplete((r, ex) -> {
                 if (ex != null) {
                     log.error("Error enviando evento Kafka", ex);
                 } else {
                     log.info("Evento Kafka enviado. topic={} partition={} offset={} headers={}",
-                        r.getRecordMetadata().topic(),
-                        r.getRecordMetadata().partition(),
-                        r.getRecordMetadata().offset(),
-                        msg.getHeaders());
+                            r.getRecordMetadata().topic(),
+                            r.getRecordMetadata().partition(),
+                            r.getRecordMetadata().offset(),
+                            msg.getHeaders());
                 }
             });
         } catch (Exception e) {
             log.error("Error enviando evento Kafka: {}", e.getMessage(), e);
         }
     }
+
     @Override
     public void passwordResetRequested(PasswordResetRequestedEvent event) {
         try {
             String json = objectMapper.writeValueAsString(event);
 
             Message<String> msg = MessageBuilder
-                .withPayload(json)
-                .setHeader(KafkaHeaders.TOPIC, "reset-user-password")
-                .setHeader(KafkaHeaders.KEY, event.userId())
-                .setHeader("eventType", "user.password.reset.requested.v1")
-                .build();
+                    .withPayload(json)
+                    .setHeader(KafkaHeaders.TOPIC, resetPasswordTopic)
+                    .setHeader(KafkaHeaders.KEY, event.userId())
+                    .setHeader("eventType", "user.password.reset.requested.v1")
+                    .build();
 
             kafkaTemplate.send(msg); // <-- SIN CAST
             log.info("Evento 'passwordResetRequested' publicado para {}", event.email());
@@ -77,5 +84,4 @@ public class UserEventsPublisherKafka implements UserEventPublisher {
         }
     }
 
-    
 }

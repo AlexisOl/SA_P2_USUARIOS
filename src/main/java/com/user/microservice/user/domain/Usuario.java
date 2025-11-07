@@ -54,7 +54,7 @@ public class Usuario {
         return new Usuario(null, nombre, email, passwordHash, dpi, rol, true, Instant.now(), Instant.now());
     }
 
-    public void actualizar(String nombre, Rol rol, Boolean enabled) {
+    public void actualizar(String nombre, String email, Rol rol, String dpi, Boolean enabled) {
         if (nombre != null && !nombre.isBlank()) {
             this.nombre = nombre.trim();
         }
@@ -63,6 +63,12 @@ public class Usuario {
         }
         if (enabled != null) {
             this.enabled = enabled;
+        }
+        if (email != null) {
+            this.email = email;
+        }
+        if (dpi != null) {
+            this.dpi = dpi;
         }
         this.updatedAt = Instant.now();
     }
